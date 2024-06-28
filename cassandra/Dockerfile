@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:17-jdk-jammy
 
 # explicitly set user/group IDs
 RUN set -eux; \
@@ -166,6 +166,10 @@ VOLUME /var/lib/cassandra
 
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY ready-probe.sh /opt/ready-probe.sh
+COPY welcome.sh /opt/welcome.sh
+
+RUN echo 'source /opt/welcome.sh' >> /etc/bash.bashrc
+
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 # 7000: intra-node communication
