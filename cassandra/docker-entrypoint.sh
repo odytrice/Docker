@@ -85,6 +85,7 @@ if [ "$1" = 'cassandra' ]; then
 	# Cassandra Configuration Override
 	$config="${CASSANDRA_CONFIG:='/opt/cassandra/cassandra.yaml'}"
 	if [ ! -f $config ]; then
+		echo "Config Override: Replacing $CASSANDRA_CONF/cassandra.yaml with $config"
 		mv $config "$CASSANDRA_CONF/cassandra.yaml"
 	fi
 
