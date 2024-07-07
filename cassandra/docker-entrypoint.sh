@@ -72,6 +72,7 @@ if [ "$1" = 'cassandra' ]; then
 		num_tokens \
 		rpc_address \
 		start_rpc \
+		materialized_views_enabled \
 	; do
 		var="CASSANDRA_${yaml^^}"
 		val="${!var}"
@@ -80,6 +81,12 @@ if [ "$1" = 'cassandra' ]; then
 				-r 's/^(# )?('"$yaml"':).*/\2 '"$val"'/'
 		fi
 	done
+
+	# Cassandra Configuration Override
+	$config="${CASSANDRA_CONFIG:='/opt/cassandra/cassandra.yaml'}"
+	if [ ! -f $config ]; then
+		mv $config "$CASSANDRA_CONF/cassandra.yaml"
+	fi
 
 	for rackdc in dc rack; do
 		var="CASSANDRA_${rackdc^^}"
