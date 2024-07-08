@@ -83,10 +83,9 @@ if [ "$1" = 'cassandra' ]; then
 	done
 
 	# Cassandra Configuration Override
-	$config="${CASSANDRA_CONFIG:='/opt/cassandra/cassandra.yaml'}"
-	if [ ! -f $config ]; then
-		echo "Config Override: Replacing $CASSANDRA_CONF/cassandra.yaml with $config"
-		mv $config "$CASSANDRA_CONF/cassandra.yaml"
+	if [ ! -f $CASSANDRA_CONFIG ]; then
+		echo "Config Override: Replacing $CASSANDRA_CONF/cassandra.yaml with $CASSANDRA_CONFIG"
+		mv $CASSANDRA_CONFIG "$CASSANDRA_CONF/cassandra.yaml"
 	fi
 
 	for rackdc in dc rack; do
