@@ -6,7 +6,7 @@ RUN apt-get install -y curl
 # Install Dotnet
 RUN apt-get install -y dotnet-sdk-8.0
 
-#Install NodeJS
+# Install NodeJS
 ENV NODE_VERSION=20.16.0
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 ENV NVM_DIR=/root/.nvm
@@ -17,6 +17,14 @@ ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 # Install Docker
 RUN curl -fsSL https://get.docker.com | sh
+
+# Install Kubectl
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+RUN chmod +x ./kubectl
+RUN mv ./kubectl /usr/local/bin
+
+# Install Kustomize
+RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
 
 # Set user and group
 ARG user=runner
