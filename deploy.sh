@@ -6,3 +6,6 @@ docker push --all-tags odytrice/kafka
 
 docker build -t odytrice/github-runner:2.317.0 -t odytrice/github-runner:latest github-runner
 docker push --all-tags odytrice/github-runner
+
+docker build -t odytrice/jupyterlab:latest jupyterlab
+docker push --all-tags  odytrice/jupyterlab
