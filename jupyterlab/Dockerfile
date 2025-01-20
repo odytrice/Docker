@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0
-LABEL maintainer "Ody Mbegbu <odytrice@gmail.com>"
+LABEL maintainer="Ody Mbegbu <odytrice@gmail.com>"
 
 RUN apt-get update
 RUN apt-get --assume-yes install apt-transport-https python3-pip libffi-dev python3-dev
@@ -7,7 +7,7 @@ RUN apt-get --assume-yes install apt-transport-https python3-pip libffi-dev pyth
 RUN pip install jupyterlab jupyterthemes --break-system-packages
 
 RUN dotnet tool install --global Microsoft.dotnet-interactive
-ENV PATH "$PATH:/root/.dotnet/tools"
+ENV PATH="$PATH:/root/.dotnet/tools"
 RUN dotnet interactive jupyter install
 
 RUN jupyter kernelspec list
