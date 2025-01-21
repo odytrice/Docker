@@ -6,15 +6,6 @@ RUN apt-get install -y curl
 # Install Dotnet
 RUN apt-get install -y dotnet-sdk-8.0
 
-# Install NodeJS
-ENV NODE_VERSION=20.16.0
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-ENV NVM_DIR=/root/.nvm
-RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
-ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
-
 # Install Docker
 RUN curl -fsSL https://get.docker.com | sh
 
@@ -26,13 +17,31 @@ RUN mv ./kubectl /usr/local/bin
 # Install Kustomize
 RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
 
-# Set user and group
+# Create user and group
 ARG user=runner
 ARG group=runner
 ARG uid=1100
 ARG gid=1100
 RUN groupadd -g ${gid} ${group}
 RUN useradd -u ${uid} -g ${group} -s /bin/sh -m ${user} # <--- the '-m' create a user home directory
+
+# Install NodeJS
+USER runner
+
+ENV NODE_VERSION=20.16.0
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+ENV NVM_DIR=/home/${user}/.nvm
+
+# Add NVM to the runner's shell configuration
+RUN echo 'export NVM_DIR="/home/${user}/.nvm"' >> /home/${user}/.bashrc && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' >> /home/${user}/.bashrc && \
+    echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion' >> /home/${user}/.bashrc && \
+    echo 'export PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin:$PATH"' >> /home/${user}/.bashrc
+
+RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
+ENV PATH="${NVM_DIR}/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 WORKDIR /home/runner
 
