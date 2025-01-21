@@ -47,5 +47,6 @@ chown -R ${RUNUSER} $WORKDIR
 # tail -f /dev/null
 # su runner -c "docker ps"
 
+su $RUNUSER -c ". ~/.profile"
 su $RUNUSER -c "./config.sh --unattended --url $REPO_URL --token $RUNNER_TOKEN --work $WORKDIR"
-su $RUNUSER -c "./run.sh"
+su $RUNUSER -c ". ~/.profile && ./run.sh"

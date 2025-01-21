@@ -32,16 +32,17 @@ ENV NODE_VERSION=20.16.0
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 ENV NVM_DIR=/home/${user}/.nvm
 
-# Add NVM to the runner's shell configuration
-RUN echo 'export NVM_DIR="/home/${user}/.nvm"' >> /home/${user}/.bashrc && \
-    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' >> /home/${user}/.bashrc && \
-    echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion' >> /home/${user}/.bashrc && \
-    echo 'export PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin:$PATH"' >> /home/${user}/.bashrc
+# Add NVM and PATH setup to .profile
+RUN echo 'export NVM_DIR="/home/${user}/.nvm"' >> /home/${user}/.profile && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' >> /home/${user}/.profile && \
+    echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion' >> /home/${user}/.profile && \
+    echo 'export PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin:$PATH"' >> /home/${user}/.profile
 
 RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
-ENV PATH="${NVM_DIR}/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+
+USER root
 
 WORKDIR /home/runner
 
