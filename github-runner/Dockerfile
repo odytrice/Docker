@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 RUN apt-get update
-RUN apt-get install -y curl
+RUN apt-get install -y curl jq
 
 # Install Dotnet
 RUN apt-get install -y dotnet-sdk-8.0
