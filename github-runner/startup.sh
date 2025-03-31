@@ -60,6 +60,5 @@ mkdir -p $WORKDIR
 chown -R ${RUNUSER} $WORKDIR
 
 # Configure and start the GitHub runner as the specified user
-su $RUNUSER -c ". ~/.profile"
 su $RUNUSER -c "./config.sh --unattended --url $REPO_URL --token $RUNNER_TOKEN --work $WORKDIR"
-su $RUNUSER -c "./run.sh"
+su $RUNUSER -c ". ~/.profile && ./run.sh"

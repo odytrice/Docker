@@ -53,4 +53,4 @@ RUN tar xzf ./actions-runner-linux-x64-2.317.0.tar.gz
 
 # Configure and Startup Runner
 COPY startup.sh .
-CMD [ "./startup.sh" ]
+CMD [ "/bin/bash", "./startup.sh" ]
