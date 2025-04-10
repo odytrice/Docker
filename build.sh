@@ -33,6 +33,7 @@ case $action in
     build_image "odytrice/kafka" "3.7.0" "kafka"
     build_image "odytrice/github-runner" "2.317.1" "github-runner"
     build_image "odytrice/jupyterlab" "latest" "jupyterlab"
+    build_image "odytrice/identity" "7.1.0" "identity"
     ;;
   push)
     echo "Pushing Images"
