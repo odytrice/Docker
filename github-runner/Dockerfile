@@ -42,6 +42,9 @@ RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
 
+# Install other package managers
+RUN . "/home/${user}/.profile" && npm install -g yarn pnpm
+
 USER root
 
 WORKDIR /home/runner
