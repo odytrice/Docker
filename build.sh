@@ -31,7 +31,7 @@ case $action in
     echo "Building Images"
     build_image "odytrice/cassandra" "5.0" "cassandra"
     build_image "odytrice/kafka" "3.7.0" "kafka"
-    build_image "odytrice/github-runner" "2.317.2" "github-runner"
+    build_image "odytrice/github-runner" "2.326" "github-runner"
     build_image "odytrice/jupyterlab" "latest" "jupyterlab"
     build_image "odytrice/identity" "7.1.0" "identity"
     ;;

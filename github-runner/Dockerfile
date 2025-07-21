@@ -16,6 +16,7 @@ RUN mv ./kubectl /usr/local/bin
 
 # Install Kustomize
 RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+RUN mv ./kustomize /usr/local/bin
 
 # Create user and group
 ARG user=runner
@@ -50,9 +51,9 @@ USER root
 WORKDIR /home/runner
 
 # Download Runner
-RUN curl -o actions-runner-linux-x64-2.317.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.317.0/actions-runner-linux-x64-2.317.0.tar.gz
-RUN echo "9e883d210df8c6028aff475475a457d380353f9d01877d51cc01a17b2a91161d  actions-runner-linux-x64-2.317.0.tar.gz" | sha256sum -c
-RUN tar xzf ./actions-runner-linux-x64-2.317.0.tar.gz
+RUN curl -o actions-runner-linux-x64-2.326.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.326.0/actions-runner-linux-x64-2.326.0.tar.gz
+RUN echo "9c74af9b4352bbc99aecc7353b47bcdfcd1b2a0f6d15af54a99f54a0c14a1de8  actions-runner-linux-x64-2.326.0.tar.gz" | shasum -a 256 -c
+RUN tar xzf ./actions-runner-linux-x64-2.326.0.tar.gz
 
 # Configure and Startup Runner
 COPY startup.sh .
