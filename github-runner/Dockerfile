@@ -4,7 +4,7 @@ RUN apt-get update
 RUN apt-get install -y curl jq
 
 # Install Dotnet
-RUN apt-get install -y dotnet-sdk-8.0
+RUN apt-get install -y dotnet-sdk-8.0 dotnet-sdk-10.0
 
 # Install Docker
 RUN curl -fsSL https://get.docker.com | sh
