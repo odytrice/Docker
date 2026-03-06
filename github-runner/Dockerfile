@@ -29,7 +29,7 @@ RUN useradd -u ${uid} -g ${group} -s /bin/sh -m ${user} # <--- the '-m' create a
 # Install NodeJS
 USER runner
 
-ENV NODE_VERSION=20.16.0
+ENV NODE_VERSION=24.13.0
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 ENV NVM_DIR=/home/${user}/.nvm
 
@@ -51,9 +51,9 @@ USER root
 WORKDIR /home/runner
 
 # Download Runner
-RUN curl -o actions-runner-linux-x64-2.326.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.326.0/actions-runner-linux-x64-2.326.0.tar.gz
-RUN echo "9c74af9b4352bbc99aecc7353b47bcdfcd1b2a0f6d15af54a99f54a0c14a1de8  actions-runner-linux-x64-2.326.0.tar.gz" | shasum -a 256 -c
-RUN tar xzf ./actions-runner-linux-x64-2.326.0.tar.gz
+RUN curl -o actions-runner-linux-x64-2.332.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.332.0/actions-runner-linux-x64-2.332.0.tar.gz
+RUN echo "f2094522a6b9afeab07ffb586d1eb3f190b6457074282796c497ce7dce9e0f2a  actions-runner-linux-x64-2.332.0.tar.gz" | shasum -a 256 -c
+RUN tar xzf ./actions-runner-linux-x64-2.332.0.tar.gz
 
 # Configure and Startup Runner
 COPY startup.sh .
