@@ -6,7 +6,7 @@ RUN apt-get --assume-yes install apt-transport-https python3-pip libffi-dev pyth
 
 RUN pip install jupyterlab jupyterthemes --break-system-packages
 
-RUN dotnet tool install --global Microsoft.dotnet-interactive
+RUN dotnet tool install --global Microsoft.dotnet-interactive --version 1.0.556801
 ENV PATH="$PATH:/root/.dotnet/tools"
 RUN dotnet interactive jupyter install
 

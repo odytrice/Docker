@@ -1,10 +1,14 @@
-FROM ubuntu:latest
+FROM ubuntu:24.04
 
 RUN apt-get update
-RUN apt-get install -y curl jq sudo
+RUN apt-get install -y curl jq sudo wget ca-certificates
 
 # Install Dotnet
-RUN apt-get install -y dotnet-sdk-8.0 dotnet-sdk-10.0
+RUN wget https://packages.microsoft.com/config/ubuntu/24.04/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb \
+ && dpkg -i /tmp/packages-microsoft-prod.deb \
+ && rm /tmp/packages-microsoft-prod.deb \
+ && apt-get update \
+ && apt-get install -y dotnet-sdk-8.0 dotnet-sdk-10.0
 
 # Install Docker
 RUN curl -fsSL https://get.docker.com | sh
