@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 RUN apt-get update
-RUN apt-get install -y curl jq
+RUN apt-get install -y curl jq sudo
 
 # Install Dotnet
 RUN apt-get install -y dotnet-sdk-8.0 dotnet-sdk-10.0
@@ -25,6 +25,11 @@ ARG uid=1100
 ARG gid=1100
 RUN groupadd -g ${gid} ${group}
 RUN useradd -u ${uid} -g ${group} -s /bin/sh -m ${user} # <--- the '-m' create a user home directory
+
+# Grant the runner passwordless sudo so `playwright install --with-deps`
+# (which switches to root to apt-get browser OS libraries) works in CI steps
+# that run as the non-root runner user.
+RUN echo "${user} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${user} && chmod 0440 /etc/sudoers.d/${user}
 
 # Install NodeJS
 USER runner
