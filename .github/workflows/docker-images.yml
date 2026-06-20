@@ -62,10 +62,23 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build image
+        if: github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && inputs.push)
         uses: docker/build-push-action@v7
         with:
           context: ./${{ matrix.image.context }}
-          push: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.push) }}
+          push: false
+          tags: |
+            ${{ secrets.DOCKER_USERNAME || 'odytrice' }}/${{ matrix.image.name }}:${{ matrix.image.version }}
+            ${{ secrets.DOCKER_USERNAME || 'odytrice' }}/${{ matrix.image.name }}:latest
+          cache-from: type=gha,scope=${{ matrix.image.name }}
+          cache-to: type=gha,scope=${{ matrix.image.name }},mode=max
+
+      - name: Build and push image
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.push)
+        uses: docker/build-push-action@v7
+        with:
+          context: ./${{ matrix.image.context }}
+          push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME || 'odytrice' }}/${{ matrix.image.name }}:${{ matrix.image.version }}
             ${{ secrets.DOCKER_USERNAME || 'odytrice' }}/${{ matrix.image.name }}:latest
